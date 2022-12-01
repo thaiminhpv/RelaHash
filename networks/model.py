@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision.models import alexnet
 
-from relative_similarity import RelativeSimilarity
+from networks.relative_similarity import RelativeSimilarity
 
 class AlexNet(nn.Module):
     def __init__(self,
