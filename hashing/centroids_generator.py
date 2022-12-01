@@ -18,8 +18,7 @@ def generate_centroids(nclass: int, nbit: int, init_method: str, device=torch.de
         centroids = get_hadamard(nclass, nbit)
     else:
         raise NotImplementedError(f'Centroid initialization method {init_method} is not implemented')
-    centroids = centroids.to(device).sign()
-    return centroids
+    return centroids.to(device).sign() 
 
 def get_hd(a, b):
     return 0.5 * (a.size(0) - a @ b.t()) / a.size(0)

@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.linalg import matrix_norm
 
-from centroids_generator import generate_centroids
+from hashing.centroids_generator import generate_centroids
 
 class RelativeSimilarity(nn.Module):
     def __init__(self, nbit, nclass, batchsize, init_method='M', device='cuda'):
