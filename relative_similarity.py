@@ -6,15 +6,15 @@ from torch.linalg import matrix_norm
 from utils import generate_centroids
 
 class RelativeSimilarity(nn.Module):
-    def __init__(self, nfeat, nclass, init_method='M', device='cuda'):
+    def __init__(self, nbit, nclass, init_method='M', device='cuda'):
         super(RelativeSimilarity, self).__init__()
-        self.nfeat = nfeat
+        self.nbit = nbit
         self.nclass = nclass
 
-        self.centroids = nn.Parameter(generate_centroids(nclass, nfeat, init_method, device=device))
+        self.centroids = nn.Parameter(generate_centroids(nclass, nbit, init_method, device=device))
         self.centroids.requires_grad_(False)
 
-        self.relative_pos = RelativePosition(nfeat, nclass, device=device)
+        self.relative_pos = RelativePosition(nbit, nclass, device=device)
 
         self.c_star = self.centroids / torch.linalg.norm(self.centroids, dim=-1, keepdim=True) # normalize and fixed centroids
         
@@ -24,7 +24,7 @@ class RelativeSimilarity(nn.Module):
 
 
     def extra_repr(self) -> str:
-        return 'nbit={}, n_class={}'.format(self.nfeat, self.nclass)
+        return 'nbit={}, n_class={}'.format(self.nbit, self.nclass)
 
 
 class RelativePosition(nn.Module):
