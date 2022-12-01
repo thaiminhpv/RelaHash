@@ -21,23 +21,19 @@ class AlexNet(nn.Module):
             fc.append(model.classifier[i])
         self.fc = nn.Sequential(*fc)
 
-        in_features = model.classifier[6].in_features
-
-        self.relative_similarity = RelativeSimilarity(nbit, nclass, batchsize, init_method=init_method, device=device)
-
-        self.hash_fc = nn.Sequential(
-            nn.Linear(in_features, nbit, bias=False),
-            nn.BatchNorm1d(nbit, momentum=0.1)
-        )
-
-        nn.init.normal_(self.hash_fc[0].weight, std=0.01)
-        # nn.init.zeros_(self.hash_fc.bias)
-
         if freeze_weight:
             for param in self.features.parameters():
                 param.requires_grad_(False)
             for param in self.fc.parameters():
                 param.requires_grad_(False)
+
+        self.hash_fc = nn.Sequential(
+            nn.Linear(model.classifier[6].in_features, nbit, bias=False),
+            nn.BatchNorm1d(nbit, momentum=0.1)
+        )
+        nn.init.normal_(self.hash_fc[0].weight, std=0.01)
+
+        self.relative_similarity = RelativeSimilarity(nbit, nclass, batchsize, init_method=init_method, device=device)
 
     def get_backbone_params(self):
         return list(self.features.parameters()) + list(self.fc.parameters())
