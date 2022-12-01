@@ -11,17 +11,21 @@ class RelativeSimilarity(nn.Module):
         self.nbit = nbit
         self.nclass = nclass
 
-        self.centroids = nn.Parameter(generate_centroids(nclass, nbit, init_method, device=device))
+        self.centroids = nn.Parameter(generate_centroids(nclass, nbit, init_method='N', device=device))
         self.centroids.requires_grad_(False)
 
         self.relative_pos = RelativePosition(nbit, batchsize, device=device)
 
-        self.c_star = self.centroids / torch.linalg.norm(self.centroids, dim=-1, keepdim=True) # normalize and fixed centroids
+        self.update_centroids(generate_centroids(nclass, nbit, init_method=init_method, device=device))
         
     def forward(self, z):
         z_star = self.relative_pos(z)
         return z_star @ self.c_star.T
 
+    def update_centroids(self, centroids):
+        self.centroids.data.copy_(centroids)
+        self.c_star = self.centroids / torch.linalg.norm(self.centroids, dim=-1, keepdim=True) # normalize and fixed centroids
+        self.c_star.requires_grad_(False)
 
     def extra_repr(self) -> str:
         return 'nbit={}, n_class={}'.format(self.nbit, self.nclass)
