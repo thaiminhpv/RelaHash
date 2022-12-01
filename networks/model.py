@@ -40,6 +40,9 @@ class AlexNet(nn.Module):
 
     def get_hash_params(self):
         return list(self.relative_similarity.parameters()) + list(self.hash_fc.parameters())
+    
+    def get_centroids(self):
+        return self.relative_similarity.centroids
 
     def forward(self, x):
         x = self.features(x)
