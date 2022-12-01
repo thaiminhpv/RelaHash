@@ -6,8 +6,10 @@ from relative_similarity import RelativeSimilarity
 
 class AlexNet(nn.Module):
     def __init__(self,
-                 nbit, nclass, pretrained=True, freeze_weight=False,
-                 init_method='M', device='cuda',
+                 nbit, nclass, batchsize,
+                 init_method='M',
+                 pretrained=True, freeze_weight=False,
+                 device='cuda',
                  **kwargs):
         super(AlexNet, self).__init__()
 
@@ -21,7 +23,7 @@ class AlexNet(nn.Module):
 
         in_features = model.classifier[6].in_features
 
-        self.relative_similarity = RelativeSimilarity(nbit, nclass, init_method=init_method, device=device)
+        self.relative_similarity = RelativeSimilarity(nbit, nclass, batchsize, init_method=init_method, device=device)
 
         self.hash_fc = nn.Sequential(
             nn.Linear(in_features, nbit, bias=False),
