@@ -48,6 +48,7 @@ config = {
         'init_method': args.init_centroids_method,
         'pretrained': True,
         'freeze_weight': False,
+        'device': args.device,
     },
     'batch_size': args.bs,
     'dataset': args.ds,
