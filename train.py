@@ -1,5 +1,4 @@
 import json
-import wandb
 import logging
 import os
 import time
@@ -164,6 +163,7 @@ def main(config):
     pprint(config)
 
     if config['wandb_enable']:
+        import wandb
         ## initiaze wandb ##
         wandb_dir = logdir
         wandb.init(project="relahash", config=config, dir=wandb_dir)
