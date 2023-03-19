@@ -19,6 +19,7 @@ parser.add_argument('--nbit', default=64, type=int, help='number of bits')
 parser.add_argument('--bs', default=16, type=int, help='batch size')
 parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
 parser.add_argument('--epochs', default=100, type=int, help='training epochs')
+parser.add_argument('--eval-interval', default=10, type=int, help='evaluation interval')
 parser.add_argument('--ds', default='cifar10', choices=['cifar10', 'cifar100', 'imagenet100', 'nuswide'],
                     help='dataset')
 # loss related
@@ -77,7 +78,7 @@ config = {
         'milestones': '0.5,0.75'
     },
     'save_interval': 0,
-    'eval_interval': 10,
+    'eval_interval': args.eval_interval,
     'tag': args.tag,
     'seed': args.seed,
 
