@@ -95,7 +95,7 @@ def test_hashing(model, centroids, test_loader, loss_param, return_codes=False):
             loss = criterion(logits, codes, labels)
 
             hamm_dist = get_hamm_dist(codes, centroids, normalize=True)
-            acc, cbacc = calculate_accuracy(logits, hamm_dist, labels, loss_param)
+            acc, cbacc = calculate_accuracy(logits, hamm_dist, labels, loss_param['multiclass'])
 
             if return_codes:
                 ret_codes.append(codes)
