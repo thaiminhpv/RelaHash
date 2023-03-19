@@ -181,6 +181,7 @@ def main(config):
 
     train_loader, test_loader, db_loader = prepare_dataloader(config)
     model = RelaHash(**config['arch_kwargs'])
+    model.to(device)
     print(model)
 
     logging.info(f'Total Bit: {nbit}')
