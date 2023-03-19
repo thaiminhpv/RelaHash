@@ -15,6 +15,7 @@ from networks.loss import RelaHashLoss
 from networks.model import RelaHash
 from utils import io
 from utils.misc import AverageMeter, Timer
+from tqdm import tqdm
 
 
 def train_hashing(optimizer, model, centroids, train_loader, loss_param):
@@ -28,7 +29,8 @@ def train_hashing(optimizer, model, centroids, train_loader, loss_param):
 
     criterion = RelaHashLoss(**loss_param)
 
-    for i, (data, labels) in enumerate(train_loader):
+    pbar = tqdm(train_loader, desc='Training', ascii=True, bar_format='{l_bar}{bar:10}{r_bar}')
+    for i, (data, labels) in enumerate(pbar):
         timer.tick()
 
         # clear gradient
@@ -56,11 +58,9 @@ def train_hashing(optimizer, model, centroids, train_loader, loss_param):
 
         meters['time'].update(timer.total)
 
-        print(f'Train [{i + 1}/{len(train_loader)}] '
-              f'T: {meters["loss_total"].avg:.4f} '
-              f'A(CE): {meters["acc"].avg:.4f} '
-              f'A(CB): {meters["cbacc"].avg:.4f} '
-              f'({timer.total:.2f}s / {total_timer.total:.2f}s)', end='\r')
+        pbar.set_postfix({'Train_loss': meters['loss_total'].avg,
+                            'A(CE)': meters['acc'].avg,
+                            'A(CB)': meters['cbacc'].avg})
 
     print()
     total_timer.toc()
@@ -84,7 +84,8 @@ def test_hashing(model, centroids, test_loader, loss_param, return_codes=False):
 
     criterion = RelaHashLoss(**loss_param)
 
-    for i, (data, labels) in enumerate(test_loader):
+    pbar = tqdm(test_loader, desc='Test', ascii=True, bar_format='{l_bar}{bar:10}{r_bar}')
+    for i, (data, labels) in enumerate(pbar):
         timer.tick()
 
         with torch.no_grad():
@@ -110,11 +111,9 @@ def test_hashing(model, centroids, test_loader, loss_param, return_codes=False):
 
         meters['time'].update(timer.total)
 
-        print(f'Test [{i + 1}/{len(test_loader)}] '
-              f'T: {meters["loss_total"].avg:.4f} '
-              f'A(CE): {meters["acc"].avg:.4f} '
-              f'A(CB): {meters["cbacc"].avg:.4f} '
-              f'({timer.total:.2f}s / {total_timer.total:.2f}s)', end='\r')
+        pbar.set_postfix({'Eval_loss': meters['loss_total'].avg,
+                            'A(CE)': meters['acc'].avg,
+                            'A(CB)': meters['cbacc'].avg})
 
     print()
     meters['total_time'].update(total_timer.total)
