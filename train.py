@@ -229,6 +229,8 @@ def main(config):
             wandb_train.pop("ep")
             wandb.log(wandb_train, step=res['ep'])
 
+        modelsd = model.state_dict()
+        optimsd = optimizer.state_dict()
 
         eval_now = (ep + 1) == nepochs or (neval != 0 and (ep + 1) % neval == 0)
         if eval_now:
@@ -256,6 +258,7 @@ def main(config):
             if best < curr_metric:
                 best = curr_metric
                 io.fast_save(modelsd, f'{logdir}/models/best.pth')
+                io.fast_save(optimsd, f'{logdir}/optims/best.pth')
                 if config['wandb_enable']:
                     wandb.run.summary["best_map"] = best
 
@@ -268,14 +271,10 @@ def main(config):
             json.dump(test_history, open(f'{logdir}/test_history.json', 'w+'), indent=True, sort_keys=True)
             # io.fast_save(test_outputs, f'{logdir}/outputs/test_last.pth')
 
-        modelsd = model.state_dict()
-        # optimsd = optimizer.state_dict()
-        # io.fast_save(modelsd, f'{logdir}/models/last.pth')
-        # io.fast_save(optimsd, f'{logdir}/optims/last.pth')
         save_now = config['save_interval'] != 0 and (ep + 1) % config['save_interval'] == 0
         if save_now:
             io.fast_save(modelsd, f'{logdir}/models/ep{ep + 1}.pth')
-            # io.fast_save(optimsd, f'{logdir}/optims/ep{ep + 1}.pth')
+            io.fast_save(optimsd, f'{logdir}/optims/ep{ep + 1}.pth')
             # io.fast_save(train_outputs, f'{logdir}/outputs/train_ep{ep + 1}.pth')
 
         if best < curr_metric:
@@ -284,6 +283,7 @@ def main(config):
 
     modelsd = model.state_dict()
     io.fast_save(modelsd, f'{logdir}/models/last.pth')
+    io.fast_save(optimsd, f'{logdir}/optims/last.pth')
     total_time = time.time() - start_time
     io.join_save_queue()
     logging.info(f'Training End at {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}')

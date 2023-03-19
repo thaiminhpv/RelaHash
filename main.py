@@ -77,7 +77,7 @@ config = {
         'gamma': 0.1,
         'milestones': '0.5,0.75'
     },
-    'save_interval': 0,
+    'save_interval': args.eval_interval,
     'eval_interval': args.eval_interval,
     'tag': args.tag,
     'seed': args.seed,
