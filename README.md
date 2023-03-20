@@ -6,6 +6,10 @@
 
 ### Training
 
+<a target="_blank" href="https://colab.research.google.com/github/thaiminhpv/RelaHash/blob/master/training_example_colab.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 ```bash
 python main.py --ds cifar10 --nbit 64 --device cuda:0 
 ```
