@@ -2,7 +2,7 @@
 
 [IEEE Access](https://ieeexplore.ieee.org/document/10076458)
 
-### Official PyTorch implementation of the paper: "RelaHash: Deep Hashing with Relative Position"
+### Official PyTorch implementation of IEEE Access 2023 paper: "RelaHash: Deep Hashing with Relative Position"
 
 ## Description
 
