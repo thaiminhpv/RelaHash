@@ -1,6 +1,6 @@
 # RelaHash
 
-[IEEE Access](https://ieeexplore.ieee.org/document/10076458)
+[View on IEEE Xplore](https://ieeexplore.ieee.org/document/10076458) | [PDF](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10076458)
 
 ### Official PyTorch implementation of IEEE Access 2023 paper: "RelaHash: Deep Hashing with Relative Position"
 
