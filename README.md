@@ -36,3 +36,20 @@ You can also checkout the [example training notebook](./training_example_colab.i
 ### Dataset
 
 We closely follow the dataset format of [HashNet](https://github.com/thuml/HashNet). You can follow the instructions as in [this link](https://github.com/swuxyj/DeepHash-pytorch) to download the datasets.
+
+### Reference
+
+If you find this repo useful, please consider citing:
+
+```bibtex
+@ARTICLE{RelaHash,
+    author={Minh, Pham Vu Thai and Viet, Nguyen Dong Duc and Son, Ngo Tung and Anh, Bui Ngoc and Jaafar, Jafreezal},
+    journal={IEEE Access}, 
+    title={RelaHash: Deep Hashing With Relative Position}, 
+    year={2023},
+    volume={11},
+    number={},
+    pages={30094-30108},
+    doi={10.1109/ACCESS.2023.3259104}
+}
+```
