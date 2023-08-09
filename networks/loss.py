@@ -32,9 +32,12 @@ class RelaHashLoss(nn.Module):
             labels = labels.float()
 
             margin_logits = self.compute_margin_logits(logits, labels)
-
+            
             # label smoothing
             log_logits = F.log_softmax(margin_logits, dim=1)
+            # if there are some Zero Vector in Matrix
+            A = ((labels==0).sum(dim=1) == labels.shape[1])
+            labels[A==True] = 1
             labels_scaled = labels / labels.sum(dim=1, keepdim=True)
             loss = - (labels_scaled * log_logits).sum(dim=1)
             loss = loss.mean()
